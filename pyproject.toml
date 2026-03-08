@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "titan-gate"
+version = "1.0.2"
+description = "Cryptographic receipt verifier for AI-assisted code changes (TRS-1)"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Rehan Masood", email = "rehan@titangate.dev"}]
+keywords = ["cryptography", "receipts", "audit", "soc2", "ai", "verification"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Quality Assurance",
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+titan-verify = "titan.verify:main"
+
+[project.urls]
+Homepage = "https://github.com/Rehanrana11/titan-gate-public"
+Specification = "https://github.com/Rehanrana11/titan-gate-public/blob/main/SPEC.md"
+"Bug Tracker" = "https://github.com/Rehanrana11/titan-gate-public/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["titan*"]
