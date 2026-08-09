@@ -1,5 +1,7 @@
 # Titan Gate
 
+> Verify any receipt chain — including from other vendors — with [evidence-verify](https://github.com/Rehanrana11/evidence-verify), the standalone vendor-neutral verifier.
+
 Titan Gate is the commit history for AI decisions.
 
 Every code change evaluated by an AI system produces a **receipt** — a signed, chained, Merkle-anchored artifact that proves what was evaluated, what verdict was reached, and that the record has not been altered.
