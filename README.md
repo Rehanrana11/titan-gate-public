@@ -6,7 +6,7 @@ Titan Gate is the commit history for AI decisions.
 
 Every code change evaluated by an AI system produces a **receipt** — a signed, chained, Merkle-anchored artifact that proves what was evaluated, what verdict was reached, and that the record has not been altered.
 
-Receipts are independently verifiable by any party with access to the receipt file and the signing key. No network access, no database, no trusted third party required.
+Receipts are verifiable offline by any party holding the key — no network, no database, no trusted third party. On the default `hmac-sha256-v1` path the key is symmetric, so verification is not independent of the signer: a holder who can verify can also sign. Independent verification requires the `ed25519-v1` path, which is implemented and is not yet the shipped default.
 
 ---
 
@@ -82,12 +82,29 @@ Titan Gate consists of five cryptographic verification layers:
 
 ## SOC2 Alignment
 
-| Control | Coverage |
-|---------|----------|
-| CC6.1 | Tenant isolation, API key as SHA256 |
-| CC6.7 | HMAC-SHA256 signature over canonical bytes |
-| CC7.2 | Replay engine, chain integrity verification |
-| CC8.1 | Signed receipt per PR, verdict + score recorded |
+These map Titan Gate's **evidence-integrity** properties to Trust Services
+Criteria. They describe what the receipt format proves about itself. They are
+not an attestation that your organization's controls operate effectively, and
+they are not a substitute for an audit.
+
+| Control | Evidence property | Established by |
+|---------|-------------------|----------------|
+| CC6.1 | Tenant isolation; API key stored as SHA256 | trust-domain separation tests |
+| CC6.7 | HMAC-SHA256 signature over canonical bytes | signature + tamper-detection tests |
+| CC7.2 | Chain integrity; replay detects deletion and reorder | chain verification tests |
+| CC8.1 | A signed, chained receipt exists for every evaluation | receipt writer tests |
+
+### What is not claimed
+
+Receipts carry a `soc2_controls` field. That field records which controls a
+**violation** implicates. It does not attest that an unimplicated control is
+satisfied: no check establishes that, and the absence of a violation is not
+evidence of compliance.
+
+Receipts also carry `structural_score`, `semantic_score`, `composite_score` and
+`verdict`. These are heuristic and uncalibrated — `semantic_score` does not
+distinguish correct code from incorrect code. Do not treat them as a quality
+measurement. The verification properties above are what this tool proves.
 
 ---
 
